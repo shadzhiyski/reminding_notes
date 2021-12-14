@@ -28,18 +28,15 @@ class _NotesListPageState extends State<NotesListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(top: 24),
-        child: ListView(
-          children: _notesByDay.keys
-              .map(
-                (day) => NotesGroupWidget(
-                  day: day,
-                  notes: _notesByDay[day]!,
-                ),
-              )
-              .toList(),
-        ),
+      body: ListView(
+        children: _notesByDay.keys
+            .map(
+              (day) => NotesGroupWidget(
+                day: day,
+                notes: _notesByDay[day]!,
+              ),
+            )
+            .toList(),
       ),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
