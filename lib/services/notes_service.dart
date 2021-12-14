@@ -26,6 +26,13 @@ class NotesService {
             type: NoteType.dailyReminding,
             status: NoteStatus.active,
           ),
+          NoteViewModel(
+            dateTime: DateTime.utc(2021, 12, 11, 11, 45, 00),
+            title: "Once Remind Note (DONE)",
+            description: "Some description",
+            type: NoteType.monthlyReminding,
+            status: NoteStatus.done,
+          ),
         ],
         DateTime.utc(2021, 12, 11, 00, 00, 00): [
           NoteViewModel(

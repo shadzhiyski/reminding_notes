@@ -40,12 +40,13 @@ class NoteListItemWidget extends StatelessWidget {
                   onPressed: (_) {},
                   backgroundColor: Colors.red,
                   foregroundColor: Colors.white,
-                  icon: Icons.delete,
+                  icon: Icons.delete_rounded,
                   label: 'Delete',
                 ),
               ],
             ),
             child: ListTile(
+              enabled: model.status != NoteStatus.done,
               shape: Border(
                 bottom: BorderSide(color: Theme.of(context).splashColor),
               ),
@@ -55,49 +56,34 @@ class NoteListItemWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(model.description!),
-                  Row(
-                    children: [
-                      if (model.type == NoteType.dailyReminding)
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(top: 2, left: 2, right: 2),
-                          child: InputChip(
-                            avatar: const Icon(Icons.alarm_on_rounded),
-                            label:
-                                Text(DateFormat.Hm().format(model.dateTime!)),
-                            onSelected: (bool value) {},
-                          ),
-                        ),
-                      if (model.type == NoteType.weeklyReminding)
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(top: 2, left: 2, right: 2),
-                          child: InputChip(
-                            avatar: const Icon(Icons.alarm_on_rounded),
-                            label: Text(
-                                '${DateFormat.Hm().format(model.dateTime!)}, each ${DateFormat.EEEE().format(model.dateTime!)}'),
-                            onSelected: (bool value) {},
-                          ),
-                        ),
-                    ],
-                  ),
                 ],
               ),
               leading: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (model.type == NoteType.scheduledReminding)
-                    const Icon(Icons.alarm_on_rounded, size: 32),
-                  if (model.type == NoteType.dailyReminding ||
-                      model.type == NoteType.weeklyReminding)
+                  if (model.status == NoteStatus.done)
+                    const Icon(Icons.done_rounded, size: 32)
+                  else if (model.type == NoteType.scheduledReminding)
+                    const Icon(Icons.alarm_on_rounded, size: 32)
+                  else if (model.type == NoteType.dailyReminding ||
+                      model.type == NoteType.weeklyReminding ||
+                      model.type == NoteType.monthlyReminding ||
+                      model.type == NoteType.annualReminding)
                     const Icon(Icons.repeat_rounded, size: 32),
                 ],
               ),
               trailing: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(DateFormat.yMMMd().format(model.dateTime!)),
                   Text(DateFormat.Hm().format(model.dateTime!)),
-                  Text('each ${DateFormat.EEEE().format(model.dateTime!)}'),
+                  if (model.type == NoteType.dailyReminding)
+                    const Text('daily'),
+                  if (model.type == NoteType.weeklyReminding)
+                    Text('each ${DateFormat.EEEE().format(model.dateTime!)}'),
+                  if (model.type == NoteType.monthlyReminding)
+                    const Text('monthly'),
+                  if (model.type == NoteType.annualReminding)
+                    const Text('annual'),
                 ],
               ),
               onTap: () => Navigator.of(context).pushNamed('/editItem'),
