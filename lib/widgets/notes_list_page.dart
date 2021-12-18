@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:reminding_notes/models/note_view_model.dart';
 import 'package:reminding_notes/services/notes_service.dart';
 
-import 'notes_group_widget.dart';
+import 'calendar_scroller_widget.dart';
+import 'note_list_item_widget.dart';
 
 class NotesListPage extends StatefulWidget {
   final NotesService notesService;
@@ -14,29 +15,41 @@ class NotesListPage extends StatefulWidget {
 }
 
 class _NotesListPageState extends State<NotesListPage> {
-  Map<DateTime, List<NoteViewModel>> _notesByDay =
-      <DateTime, List<NoteViewModel>>{};
+  List<NoteViewModel> _notesByDay = [];
 
   @override
   void initState() {
     super.initState();
     widget.notesService
-        .getNotesByDay()
+        .getNotesForDay(DateTime.now())
         .then((value) => setState(() => _notesByDay = value));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: _notesByDay.keys
-            .map(
-              (day) => NotesGroupWidget(
-                day: day,
-                notes: _notesByDay[day]!,
+      appBar: AppBar(
+        toolbarHeight: 160,
+        flexibleSpace: const CalendarScrollerWidget(),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: Column(
+                children: _notesByDay
+                    .map(
+                      (note) => NoteListItemWidget(
+                        model: note,
+                      ),
+                    )
+                    .toList(),
               ),
-            )
-            .toList(),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
