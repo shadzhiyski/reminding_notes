@@ -33,22 +33,17 @@ class _NotesListPageState extends State<NotesListPage> {
         flexibleSpace: const CalendarScrollerWidget(),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: Column(
-                children: _notesByDay
-                    .map(
-                      (note) => NoteListItemWidget(
-                        model: note,
-                      ),
-                    )
-                    .toList(),
-              ),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.only(top: 16),
+          child: Column(
+            children: _notesByDay
+                .map(
+                  (note) => NoteListItemWidget(
+                    model: note,
+                  ),
+                )
+                .toList(),
+          ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(
