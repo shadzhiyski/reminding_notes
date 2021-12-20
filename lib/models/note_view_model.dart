@@ -17,7 +17,6 @@ enum NoteStatus {
   cancelled,
 }
 
-// TODO: change dateTime to createDateTime; add editDateTime ???; add scheduleDateTime;
 class NoteViewModel extends ChangeNotifier {
   late int _id;
   DateTime? _dateTime;
