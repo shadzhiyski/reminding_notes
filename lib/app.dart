@@ -23,7 +23,7 @@ class App extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) {
-          return const NotesListPage(notesService: NotesService());
+          return NotesListPage(notesService: NotesService());
         },
         '/editItem': (context) {
           return const EditItemPage();
