@@ -14,6 +14,7 @@ class CalendarScrollerViewModel extends ChangeNotifier {
     _setMonthDays(_dateTime);
   }
 
+  DateTime get selectedDay => _selectedMonthDays[_selectedDayIndex];
   List<DateTime> get monthDays => _selectedMonthDays;
 
   int get selectedDayIndex => _selectedDayIndex;
