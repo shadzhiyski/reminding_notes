@@ -67,36 +67,44 @@ class CalendarScrollerWidget extends StatelessWidget {
                   child: PageView.builder(
                     itemCount: model.monthDays.length,
                     controller: PageController(
-                        initialPage: model.selectedDayIndex,
-                        viewportFraction: 0.16),
+                      initialPage: model.selectedDayIndex,
+                      viewportFraction: 0.16,
+                    ),
                     onPageChanged: (int index) {
                       model.selectedDayIndex = index;
                       notesListModel.loadNotes(model.selectedDay);
                     },
-                    itemBuilder: (_, i) => Transform.scale(
-                      scale: model.selectedDayIndex == i ? 1 : 0.9,
-                      child: Card(
-                        color: model.selectedDayIndex == i
-                            ? Theme.of(context).colorScheme.secondary
-                            : Theme.of(context).colorScheme.background,
-                        elevation: 6,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 16),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "${i + 1}",
-                                  style: const TextStyle(fontSize: 24),
-                                ),
-                                Text(
-                                  DateFormat.E().format(model.monthDays[i]),
-                                ),
-                              ],
+                    itemBuilder: (_, index) => Transform.scale(
+                      scale: model.selectedDayIndex == index ? 1 : 0.9,
+                      child: GestureDetector(
+                        onTap: () {
+                          model.selectedDayIndex = index;
+                          notesListModel.loadNotes(model.selectedDay);
+                        },
+                        child: Card(
+                          color: model.selectedDayIndex == index
+                              ? Theme.of(context).colorScheme.secondary
+                              : Theme.of(context).colorScheme.background,
+                          elevation: 6,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "${index + 1}",
+                                    style: const TextStyle(fontSize: 24),
+                                  ),
+                                  Text(
+                                    DateFormat.E()
+                                        .format(model.monthDays[index]),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
