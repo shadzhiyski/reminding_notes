@@ -12,18 +12,19 @@ class NotesListPage extends StatelessWidget {
   const NotesListPage({Key? key, required this.notesService}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) =>
-      ChangeNotifierProvider<NotesListViewModel>(
-        create: (context) => NotesListViewModel(
-          notesService: notesService,
-        )..loadNotes(DateTime.now()),
-        builder: (context, child) => child!,
-        child: Scaffold(
-          appBar: AppBar(
-            toolbarHeight: 160,
-            flexibleSpace: const CalendarScrollerWidget(),
-          ),
-          body: SingleChildScrollView(
+  Widget build(BuildContext context) {
+    var model = NotesListViewModel(notesService: notesService);
+    return ChangeNotifierProvider<NotesListViewModel>(
+      create: (context) => model,
+      builder: (context, child) => child!,
+      child: Scaffold(
+        appBar: AppBar(
+          toolbarHeight: 160,
+          flexibleSpace: const CalendarScrollerWidget(),
+        ),
+        body: FutureBuilder(
+          future: model.loadNotes(DateTime.now()),
+          builder: (context, snapshot) => SingleChildScrollView(
             child: Consumer<NotesListViewModel>(
               builder: (context, model, child) => Padding(
                 padding: const EdgeInsets.only(top: 16),
@@ -39,37 +40,37 @@ class NotesListPage extends StatelessWidget {
               ),
             ),
           ),
-          bottomNavigationBar: BottomAppBar(
-            shape: const CircularNotchedRectangle(),
-            color: Theme.of(context).primaryColor,
-            child: IconTheme(
-              data:
-                  IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.menu_rounded),
-                    onPressed: () {},
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    icon: const Icon(Icons.filter_list_rounded),
-                    onPressed: () {},
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.settings_rounded),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          shape: const CircularNotchedRectangle(),
+          color: Theme.of(context).primaryColor,
+          child: IconTheme(
+            data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
+            child: Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.menu_rounded),
+                  onPressed: () {},
+                ),
+                const Spacer(),
+                IconButton(
+                  icon: const Icon(Icons.filter_list_rounded),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: const Icon(Icons.settings_rounded),
+                  onPressed: () {},
+                ),
+              ],
             ),
           ),
-          floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.edit_rounded),
-            onPressed: () => Navigator.of(context).pushNamed('/addItem'),
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
         ),
-      );
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.edit_rounded),
+          onPressed: () => Navigator.of(context).pushNamed('/addItem'),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      ),
+    );
+  }
 }
