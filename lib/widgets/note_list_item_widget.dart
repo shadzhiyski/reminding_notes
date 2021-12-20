@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:reminding_notes/models/note_view_model.dart';
 
@@ -15,36 +14,14 @@ class NoteListItemWidget extends StatelessWidget {
   Widget build(BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Slidable(
-            enabled: model.status != NoteStatus.done,
-            key: const ValueKey(0),
-            startActionPane: ActionPane(
-              extentRatio: 0.236,
-              motion: const ScrollMotion(),
-              children: [
-                SlidableAction(
-                  onPressed: (_) =>
-                      Navigator.of(context).pushNamed('/editItem'),
-                  backgroundColor: Colors.orange,
-                  foregroundColor: Colors.white,
-                  icon: Icons.edit_rounded,
-                  label: 'Edit',
-                ),
-              ],
+          Dismissible(
+            key: ValueKey(model.id),
+            background: Container(
+              color: Colors.red,
+              alignment: Alignment.centerLeft,
+              child: const Icon(Icons.delete_rounded, size: 50.0),
             ),
-            endActionPane: ActionPane(
-              extentRatio: 0.236,
-              motion: const ScrollMotion(),
-              children: [
-                SlidableAction(
-                  onPressed: (_) {},
-                  backgroundColor: Colors.red,
-                  foregroundColor: Colors.white,
-                  icon: Icons.delete_rounded,
-                  label: 'Delete',
-                ),
-              ],
-            ),
+            onDismissed: (_) {},
             child: ListTile(
               enabled: model.status != NoteStatus.done,
               shape: Border(

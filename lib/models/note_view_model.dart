@@ -19,6 +19,7 @@ enum NoteStatus {
 
 // TODO: change dateTime to createDateTime; add editDateTime ???; add scheduleDateTime;
 class NoteViewModel extends ChangeNotifier {
+  late int _id;
   DateTime? _dateTime;
   String? _title;
   String? _description;
@@ -26,12 +27,14 @@ class NoteViewModel extends ChangeNotifier {
   NoteStatus? _status;
 
   NoteViewModel({
+    required int id,
     required DateTime? dateTime,
     required String? title,
     required String? description,
     required NoteType? type,
     required NoteStatus? status,
   }) {
+    _id = id;
     _dateTime = dateTime;
     _title = title;
     _description = description;
@@ -44,6 +47,8 @@ class NoteViewModel extends ChangeNotifier {
     _dateTime = value;
     notifyListeners();
   }
+
+  int get id => _id;
 
   String? get title => _title;
   set title(String? value) {
