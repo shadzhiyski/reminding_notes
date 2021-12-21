@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:reminding_notes/models/note_view_model.dart';
 
 class AddItemPage extends StatelessWidget {
@@ -37,105 +38,123 @@ class AddItemPage extends StatelessWidget {
             ),
           ],
         ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-              child: TextField(
-                maxLength: 20,
-                decoration: InputDecoration(
-                  labelText: 'Title',
-                  labelStyle: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  helperText: 'Event title',
-                  suffixIcon: const Icon(
-                    Icons.check_circle_rounded,
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Theme.of(context).primaryColor),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-              child: TextField(
-                maxLength: 200,
-                minLines: 8,
-                maxLines: 21,
-                decoration: InputDecoration(
-                  labelText: 'Note',
-                  labelStyle: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  helperText: 'Event note',
-                  suffixIcon: const Icon(
-                    Icons.check_circle_rounded,
-                  ),
-                  border: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Theme.of(context).primaryColor),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Theme.of(context).primaryColor),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-              child: Row(
-                children: [
-                  ElevatedButton(
-                    onPressed: () => _selectTime(context),
-                    child: Row(
-                      children: const [
-                        Icon(Icons.access_time_rounded),
-                        Text('Time'),
-                      ],
+        body: ChangeNotifierProvider<NoteViewModel>(
+          create: (context) => NoteViewModel(
+            id: -1,
+            dateTime: null,
+            title: '',
+            description: '',
+            type: NoteType.scheduledReminding,
+            status: NoteStatus.active,
+          ),
+          child: Consumer<NoteViewModel>(
+            builder: (context, model, child) => Column(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  child: TextField(
+                    onChanged: (value) => model.title = value,
+                    maxLength: 20,
+                    decoration: InputDecoration(
+                      labelText: 'Title',
+                      labelStyle: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      helperText: 'Event title',
+                      suffixIcon: const Icon(
+                        Icons.check_circle_rounded,
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Theme.of(context).primaryColor),
+                      ),
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () => _selectDate(context),
-                    child: Row(
-                      children: const [
-                        Icon(Icons.event_rounded),
-                        Text('Date'),
-                      ],
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  child: TextField(
+                    onChanged: (value) => model.description = value,
+                    maxLength: 200,
+                    minLines: 8,
+                    maxLines: 21,
+                    decoration: InputDecoration(
+                      labelText: 'Note',
+                      labelStyle: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      helperText: 'Event note',
+                      suffixIcon: const Icon(
+                        Icons.check_circle_rounded,
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Theme.of(context).primaryColor),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Theme.of(context).primaryColor),
+                      ),
                     ),
                   ),
-                  const Spacer(),
-                  Expanded(
-                    child: DropdownButton<int>(
-                      value: 1,
-                      items: NoteType.values
-                          .asMap()
-                          .map(
-                            (i, monthName) =>
-                                MapEntry<int, DropdownMenuItem<int>>(
-                              i,
-                              DropdownMenuItem<int>(
-                                child: Text(
-                                  monthName.name.replaceFirst('Reminding', ''),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  child: Row(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () => _selectTime(context),
+                        child: Row(
+                          children: const [
+                            Icon(Icons.access_time_rounded),
+                            Text('Time'),
+                          ],
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () => _selectDate(context),
+                        child: Row(
+                          children: const [
+                            Icon(Icons.event_rounded),
+                            Text('Date'),
+                          ],
+                        ),
+                      ),
+                      const Spacer(),
+                      Expanded(
+                        child: DropdownButton<int>(
+                          value: model.type!.index + 1,
+                          items: NoteType.values
+                              .asMap()
+                              .map(
+                                (i, monthName) =>
+                                    MapEntry<int, DropdownMenuItem<int>>(
+                                  i,
+                                  DropdownMenuItem<int>(
+                                    child: Text(
+                                      monthName.name
+                                          .replaceFirst('Reminding', ''),
+                                    ),
+                                    value: i + 1,
+                                  ),
                                 ),
-                                value: i + 1,
-                              ),
-                            ),
-                          )
-                          .values
-                          .toList(),
-                      onChanged: (val) {
-                        // TODO: set note type action
-                      },
-                    ),
+                              )
+                              .values
+                              .toList(),
+                          onChanged: (val) {
+                            model.type = NoteType.values[val! - 1];
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       );
 }
