@@ -82,9 +82,7 @@ class AddItemPage extends StatelessWidget {
                           color: Theme.of(context).primaryColor,
                         ),
                         helperText: 'Event title',
-                        suffixIcon: const Icon(
-                          Icons.check_circle_rounded,
-                        ),
+                        suffixIcon: const Icon(Icons.check_circle_rounded),
                         enabledBorder: UnderlineInputBorder(
                           borderSide:
                               BorderSide(color: Theme.of(context).primaryColor),
@@ -106,9 +104,7 @@ class AddItemPage extends StatelessWidget {
                           color: Theme.of(context).primaryColor,
                         ),
                         helperText: 'Event note',
-                        suffixIcon: const Icon(
-                          Icons.check_circle_rounded,
-                        ),
+                        suffixIcon: const Icon(Icons.check_circle_rounded),
                         border: OutlineInputBorder(
                           borderSide:
                               BorderSide(color: Theme.of(context).primaryColor),
