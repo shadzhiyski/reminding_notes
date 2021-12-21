@@ -1,26 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reminding_notes/models/note_view_model.dart';
 
 class AddItemPage extends StatelessWidget {
   const AddItemPage({Key? key}) : super(key: key);
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> _selectDate(NoteViewModel model, BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2015, 8),
+      initialDate: model.dateTime!,
+      firstDate: DateTime.now(),
       lastDate: DateTime(2101),
     );
-    // TODO: set date
+
+    if (picked == null) return;
+
+    model.dateTime = DateTime(
+      picked.year,
+      picked.month,
+      picked.day,
+      model.dateTime!.hour,
+      model.dateTime!.minute,
+    );
   }
 
-  Future<void> _selectTime(BuildContext context) async {
+  Future<void> _selectTime(NoteViewModel model, BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: TimeOfDay.fromDateTime(model.dateTime!),
     );
-    // TODO: set time
+
+    if (picked == null) return;
+
+    model.dateTime = DateTime(
+      model.dateTime!.year,
+      model.dateTime!.month,
+      model.dateTime!.day,
+      picked.hour,
+      picked.minute,
+    );
   }
 
   @override
@@ -41,7 +60,7 @@ class AddItemPage extends StatelessWidget {
         body: ChangeNotifierProvider<NoteViewModel>(
           create: (context) => NoteViewModel(
             id: -1,
-            dateTime: null,
+            dateTime: DateTime.now().add(const Duration(hours: 1)),
             title: '',
             description: '',
             type: NoteType.scheduledReminding,
@@ -100,13 +119,16 @@ class AddItemPage extends StatelessWidget {
                     ),
                   ),
                 ),
+                Text(
+                  '${DateFormat.yMMMMd().format(model.dateTime!)} ${DateFormat.Hm().format(model.dateTime!)}',
+                ),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                   child: Row(
                     children: [
                       ElevatedButton(
-                        onPressed: () => _selectTime(context),
+                        onPressed: () => _selectTime(model, context),
                         child: Row(
                           children: const [
                             Icon(Icons.access_time_rounded),
@@ -115,7 +137,7 @@ class AddItemPage extends StatelessWidget {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () => _selectDate(context),
+                        onPressed: () => _selectDate(model, context),
                         child: Row(
                           children: const [
                             Icon(Icons.event_rounded),
@@ -124,30 +146,28 @@ class AddItemPage extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      Expanded(
-                        child: DropdownButton<int>(
-                          value: model.type!.index + 1,
-                          items: NoteType.values
-                              .asMap()
-                              .map(
-                                (i, monthName) =>
-                                    MapEntry<int, DropdownMenuItem<int>>(
-                                  i,
-                                  DropdownMenuItem<int>(
-                                    child: Text(
-                                      monthName.name
-                                          .replaceFirst('Reminding', ''),
-                                    ),
-                                    value: i + 1,
+                      DropdownButton<int>(
+                        value: model.type!.index + 1,
+                        items: NoteType.values
+                            .asMap()
+                            .map(
+                              (i, monthName) =>
+                                  MapEntry<int, DropdownMenuItem<int>>(
+                                i,
+                                DropdownMenuItem<int>(
+                                  child: Text(
+                                    monthName.name
+                                        .replaceFirst('Reminding', ''),
                                   ),
+                                  value: i + 1,
                                 ),
-                              )
-                              .values
-                              .toList(),
-                          onChanged: (val) {
-                            model.type = NoteType.values[val! - 1];
-                          },
-                        ),
+                              ),
+                            )
+                            .values
+                            .toList(),
+                        onChanged: (val) {
+                          model.type = NoteType.values[val! - 1];
+                        },
                       ),
                     ],
                   ),
