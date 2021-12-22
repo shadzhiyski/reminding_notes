@@ -142,32 +142,30 @@ class AddItemPage extends StatelessWidget {
                             ],
                           ),
                         ),
-                        const Spacer(),
-                        DropdownButton<int>(
-                          value: model.type!.index + 1,
-                          items: NoteType.values
-                              .asMap()
-                              .map(
-                                (i, monthName) =>
-                                    MapEntry<int, DropdownMenuItem<int>>(
-                                  i,
-                                  DropdownMenuItem<int>(
-                                    child: Text(
-                                      monthName.name
-                                          .replaceFirst('Reminding', ''),
-                                    ),
-                                    value: i + 1,
-                                  ),
-                                ),
-                              )
-                              .values
-                              .toList(),
-                          onChanged: (val) {
-                            model.type = NoteType.values[val! - 1];
-                          },
-                        ),
                       ],
                     ),
+                  ),
+                  DropdownButton<int>(
+                    value: model.type!.index + 1,
+                    items: NoteType.values
+                        .asMap()
+                        .map(
+                          (i, monthName) =>
+                              MapEntry<int, DropdownMenuItem<int>>(
+                            i,
+                            DropdownMenuItem<int>(
+                              child: Text(
+                                monthName.name.replaceFirst('Reminding', ''),
+                              ),
+                              value: i + 1,
+                            ),
+                          ),
+                        )
+                        .values
+                        .toList(),
+                    onChanged: (val) {
+                      model.type = NoteType.values[val! - 1];
+                    },
                   ),
                 ],
               ),
