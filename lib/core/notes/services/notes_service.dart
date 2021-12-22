@@ -1,4 +1,4 @@
-import 'package:reminding_notes/models/note_view_model.dart';
+import 'package:reminding_notes/core/notes/models/note_view_model.dart';
 
 // TODO: change view model to DTO
 class NotesService {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:reminding_notes/models/calendar_scroller_view_model.dart';
-import 'package:reminding_notes/models/notes_list_view_model.dart';
+import 'package:reminding_notes/core/common/models/calendar_scroller_view_model.dart';
+import 'package:reminding_notes/core/notes/models/notes_list_view_model.dart';
 
 class CalendarScrollerWidget extends StatelessWidget {
   static final List<String> MONTHS = [

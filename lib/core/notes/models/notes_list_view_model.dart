@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reminding_notes/services/notes_service.dart';
+import 'package:reminding_notes/core/notes/services/notes_service.dart';
 
 import 'note_view_model.dart';
 
