@@ -1,21 +1,5 @@
 import 'package:flutter/material.dart';
-
-enum NoteType {
-  scheduledReminding,
-  dailyReminding,
-  weeklyReminding,
-  monthlyReminding,
-  annualReminding,
-  customReminding
-}
-
-enum NoteStatus {
-  active,
-  dismissed,
-  delayed,
-  done,
-  cancelled,
-}
+import 'package:reminding_notes/core/notes/dto/note_data.dart';
 
 class NoteViewModel extends ChangeNotifier {
   late int _id;
@@ -39,6 +23,15 @@ class NoteViewModel extends ChangeNotifier {
     _description = description;
     _type = type;
     _status = status;
+  }
+
+  NoteViewModel.fromDto({required NoteData noteData}) {
+    _id = noteData.id;
+    _dateTime = noteData.dateTime;
+    _title = noteData.title;
+    _description = noteData.description;
+    _type = noteData.type;
+    _status = noteData.status;
   }
 
   DateTime? get dateTime => _dateTime;

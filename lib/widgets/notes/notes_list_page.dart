@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reminding_notes/core/notes/models/notes_list_view_model.dart';
 import 'package:reminding_notes/core/notes/services/notes_service.dart';
 import 'package:reminding_notes/widgets/common/calendar_scroller_widget.dart';
 
+import 'models/notes_list_view_model.dart';
 import 'note_list_item_widget.dart';
 
 class NotesListPage extends StatelessWidget {

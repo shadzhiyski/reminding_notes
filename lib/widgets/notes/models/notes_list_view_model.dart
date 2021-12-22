@@ -13,7 +13,12 @@ class NotesListViewModel extends ChangeNotifier {
 
   List<NoteViewModel> get notes => _notes;
   Future loadNotes(DateTime day) async {
-    _notes = await notesService.getNotesForDay(day);
+    var result = await notesService.getNotesForDay(day);
+    _notes = result
+        .map(
+          (note) => NoteViewModel.fromDto(noteData: note),
+        )
+        .toList();
     notifyListeners();
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:reminding_notes/core/notes/models/note_view_model.dart';
 
 import 'package:intl/intl.dart';
 
+import 'models/note_view_model.dart';
 import 'note_list_item_widget.dart';
 
 class NotesGroupWidget extends StatelessWidget {

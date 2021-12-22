@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:reminding_notes/core/notes/models/note_view_model.dart';
+import 'package:reminding_notes/core/notes/dto/note_data.dart';
+
+import 'models/note_view_model.dart';
 
 class NoteListItemWidget extends StatelessWidget {
   final NoteViewModel model;

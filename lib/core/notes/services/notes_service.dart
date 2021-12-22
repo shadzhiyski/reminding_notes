@@ -1,10 +1,9 @@
-import 'package:reminding_notes/core/notes/models/note_view_model.dart';
+import 'package:reminding_notes/core/notes/dto/note_data.dart';
 
-// TODO: change view model to DTO
 class NotesService {
-  final Map<DateTime, List<NoteViewModel>> notesByDay = {
+  final Map<DateTime, List<NoteData>> notesByDay = {
     DateTime.utc(2021, 12, 20, 00, 00, 00): [
-      NoteViewModel(
+      NoteData(
         id: 1,
         dateTime: DateTime.utc(2021, 12, 20, 06, 45, 00),
         title: "Example Title",
@@ -12,7 +11,7 @@ class NotesService {
         type: NoteType.scheduledReminding,
         status: NoteStatus.active,
       ),
-      NoteViewModel(
+      NoteData(
         id: 2,
         dateTime: DateTime.utc(2021, 12, 20, 8, 30, 00),
         title: "Example Title 2",
@@ -20,7 +19,7 @@ class NotesService {
         type: NoteType.scheduledReminding,
         status: NoteStatus.active,
       ),
-      NoteViewModel(
+      NoteData(
         id: 3,
         dateTime: DateTime.utc(2021, 12, 20, 09, 45, 00),
         title: "Once Remind Note 3",
@@ -28,7 +27,7 @@ class NotesService {
         type: NoteType.dailyReminding,
         status: NoteStatus.active,
       ),
-      NoteViewModel(
+      NoteData(
         id: 4,
         dateTime: DateTime.utc(2021, 12, 20, 11, 45, 00),
         title: "Once Remind Note (DONE)",
@@ -38,7 +37,7 @@ class NotesService {
       ),
     ],
     DateTime.utc(2021, 12, 19, 00, 00, 00): [
-      NoteViewModel(
+      NoteData(
         id: 5,
         dateTime: DateTime.utc(2021, 12, 19, 09, 30, 00),
         title: "Example Title 3",
@@ -46,7 +45,7 @@ class NotesService {
         type: NoteType.weeklyReminding,
         status: NoteStatus.active,
       ),
-      NoteViewModel(
+      NoteData(
         id: 6,
         dateTime: DateTime.utc(2021, 12, 19, 13, 30, 00),
         title: "Once Remind Note",
@@ -56,7 +55,7 @@ class NotesService {
       ),
     ],
     DateTime.utc(2021, 12, 18, 00, 00, 00): [
-      NoteViewModel(
+      NoteData(
         id: 7,
         dateTime: DateTime.utc(2021, 12, 18, 11, 30, 00),
         title: "Once Remind Note 2",
@@ -64,7 +63,7 @@ class NotesService {
         type: NoteType.scheduledReminding,
         status: NoteStatus.active,
       ),
-      NoteViewModel(
+      NoteData(
         id: 8,
         dateTime: DateTime.utc(2021, 12, 18, 11, 30, 00),
         title: "Once Remind Note (DONE)",
@@ -77,7 +76,7 @@ class NotesService {
 
   NotesService();
 
-  Future<List<NoteViewModel>> getNotesForDay(DateTime day) {
+  Future<List<NoteData>> getNotesForDay(DateTime day) {
     var filterDay = DateTime.utc(day.year, day.month, day.day);
 
     return Future.value(notesByDay[filterDay] ?? []);
