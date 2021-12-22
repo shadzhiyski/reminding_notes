@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'core/notes/services/notes_service.dart';
-import 'widgets/notes/add_item_page.dart';
-import 'widgets/notes/edit_item_page.dart';
-import 'widgets/notes/notes_list_page.dart';
+import '../core/notes/services/notes_service.dart';
+import 'notes/add_item_page.dart';
+import 'notes/edit_item_page.dart';
+import 'notes/notes_list_page.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
