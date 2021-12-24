@@ -5,7 +5,7 @@ import 'package:reminding_notes/core/common/settings_service.dart';
 
 import '../core/notes/services/notes_service.dart';
 import 'common/settings_page.dart';
-import 'common/settings_view_model.dart';
+import 'common/models/settings_view_model.dart';
 import 'notes/add_item_page.dart';
 import 'notes/edit_item_page.dart';
 import 'notes/notes_list_page.dart';
