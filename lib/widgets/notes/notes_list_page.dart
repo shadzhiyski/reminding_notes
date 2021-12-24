@@ -59,7 +59,7 @@ class NotesListPage extends StatelessWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.settings_rounded),
-                  onPressed: () {},
+                  onPressed: () => Navigator.of(context).pushNamed('/settings'),
                 ),
               ],
             ),
