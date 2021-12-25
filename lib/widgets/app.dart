@@ -45,15 +45,9 @@ class App extends StatelessWidget {
             themeMode: model.themeMode,
             initialRoute: '/',
             routes: {
-              '/': (context) {
-                return NotesListPage(notesService: NotesService());
-              },
-              '/editItem': (context) {
-                return const EditItemPage();
-              },
-              '/addItem': (context) {
-                return const AddItemPage();
-              },
+              '/': (context) => NotesListPage(notesService: NotesService()),
+              '/editItem': (context) => const EditItemPage(),
+              '/addItem': (context) => const AddItemPage(),
               '/settings': (_) => const SettingsPage(),
             },
           );
