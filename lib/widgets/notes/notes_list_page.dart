@@ -45,7 +45,7 @@ class NotesListPage extends StatelessWidget {
           shape: const CircularNotchedRectangle(),
           color: Theme.of(context).primaryColor,
           child: IconTheme(
-            data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
+            data: Theme.of(context).primaryIconTheme,
             child: Row(
               children: [
                 IconButton(
