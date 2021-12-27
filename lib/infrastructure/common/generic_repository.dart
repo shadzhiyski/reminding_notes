@@ -3,7 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 class GenericRepository<T> {
   late Box<T> itemsBox;
 
-  void init() async {
+  Future init() async {
     itemsBox = await Hive.openBox<T>('${T.toString()}-items');
   }
 
