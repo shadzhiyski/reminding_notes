@@ -1,12 +1,15 @@
-import 'package:reminding_notes/core/common/base_entity.dart';
+import 'package:hive/hive.dart';
 
-class Reminding extends BaseEntity {
-  final DateTime dateTime;
-  final String status;
+class Reminding extends HiveObject {
+  DateTime dateTime;
 
-  const Reminding({
-    required int id,
+  String type;
+
+  String status;
+
+  Reminding({
     required this.dateTime,
+    required this.type,
     required this.status,
-  }) : super(id: id);
+  }) : super();
 }

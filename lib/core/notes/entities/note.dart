@@ -1,19 +1,17 @@
-import 'package:reminding_notes/core/common/base_entity.dart';
+import 'package:hive/hive.dart';
 
 import 'reminding.dart';
 
-class Note extends BaseEntity {
-  final String title;
-  final String? description;
-  final String noteType;
+class Note extends HiveObject {
+  String title;
 
-  final Reminding? reminding;
+  String? description;
 
-  const Note({
-    required int id,
+  List<Reminding> remindings;
+
+  Note({
     required this.title,
+    required this.remindings,
     this.description,
-    required this.noteType,
-    this.reminding,
-  }) : super(id: id);
+  }) : super();
 }
