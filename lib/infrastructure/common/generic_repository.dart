@@ -1,10 +1,15 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
 class GenericRepository<T> {
+  bool _isInitialized = false;
+  final String boxName = '${T.toString()}-items';
   late Box<T> itemsBox;
 
+  bool get isInitialized => _isInitialized;
+
   Future init() async {
-    itemsBox = await Hive.openBox<T>('${T.toString()}-items');
+    itemsBox = await Hive.openBox<T>(boxName);
+    _isInitialized = true;
   }
 
   Future add(T entry) => itemsBox.add(entry);
