@@ -8,7 +8,7 @@ class RemindingAdapter extends TypeAdapter<Reminding> {
   @override
   Reminding read(BinaryReader reader) {
     return Reminding(
-      dateTime: DateTime.parse(reader.read()),
+      dateTime: reader.read(),
       type: reader.read(),
       status: reader.read(),
     );
@@ -16,7 +16,7 @@ class RemindingAdapter extends TypeAdapter<Reminding> {
 
   @override
   void write(BinaryWriter writer, Reminding obj) {
-    writer.write(obj.dateTime.toIso8601String());
+    writer.write(obj.dateTime);
     writer.write(obj.type);
     writer.write(obj.status);
   }
