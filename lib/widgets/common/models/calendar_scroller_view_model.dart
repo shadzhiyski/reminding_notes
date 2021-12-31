@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:quiver/time.dart';
 
@@ -11,7 +13,8 @@ class CalendarScrollerViewModel extends ChangeNotifier {
     _dateTime = DateTime.now();
     _selectedMonth = _dateTime.month;
     _selectedDayIndex = _dateTime.day - 1;
-    _setMonthDays(_dateTime);
+    var daysCount = daysInMonth(_dateTime.year, _selectedMonth);
+    _setMonthDays(daysCount);
   }
 
   DateTime get selectedDay => _selectedMonthDays[_selectedDayIndex];
@@ -27,16 +30,18 @@ class CalendarScrollerViewModel extends ChangeNotifier {
   int get selectedMonth => _selectedMonth;
   set selectedMonth(int value) {
     _selectedMonth = value;
-    _dateTime = DateTime(_dateTime.year, value, _dateTime.day);
-    _setMonthDays(_dateTime);
+    var daysCount = daysInMonth(_dateTime.year, value);
+    selectedDayIndex = min(selectedDayIndex, daysCount - 1);
+    _dateTime = DateTime(_dateTime.year, value, selectedDayIndex + 1);
+
+    _setMonthDays(daysCount);
     notifyListeners();
   }
 
-  void _setMonthDays(DateTime date) {
-    var daysCount = daysInMonth(date.year, date.month);
+  void _setMonthDays(int daysCount) {
     _selectedMonthDays = List.generate(
       daysCount,
-      (index) => DateTime(date.year, date.month, index + 1),
+      (index) => DateTime(_dateTime.year, _dateTime.month, index + 1),
     );
   }
 }
