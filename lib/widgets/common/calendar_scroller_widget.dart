@@ -6,21 +6,6 @@ import 'package:reminding_notes/widgets/notes/models/notes_list_view_model.dart'
 import 'models/calendar_scroller_view_model.dart';
 
 class CalendarScrollerWidget extends StatelessWidget {
-  static final List<String> MONTHS = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
-  ];
-
   const CalendarScrollerWidget({Key? key}) : super(key: key);
 
   @override
@@ -34,32 +19,63 @@ class CalendarScrollerWidget extends StatelessWidget {
         builder: (context, model, child) => SafeArea(
           child: Column(
             children: [
-              DropdownButton<int>(
-                iconSize: 32,
-                dropdownColor: Theme.of(context).colorScheme.primary,
-                iconEnabledColor:
-                    Theme.of(context).primaryTextTheme.headline5!.color,
-                value: model.selectedMonth,
-                items: MONTHS
-                    .asMap()
-                    .map(
-                      (i, monthName) => MapEntry<int, DropdownMenuItem<int>>(
-                        i,
-                        DropdownMenuItem<int>(
-                          child: Text(
-                            monthName,
-                            style: Theme.of(context).primaryTextTheme.headline5,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  DropdownButton<int>(
+                    iconSize: 32,
+                    dropdownColor: Theme.of(context).colorScheme.primary,
+                    iconEnabledColor:
+                        Theme.of(context).primaryTextTheme.headline5!.color,
+                    value: model.selectedYear,
+                    items: CalendarScrollerViewModel.YEARS
+                        .map(
+                          (year) => DropdownMenuItem<int>(
+                            child: Text(
+                              year.toString(),
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline5,
+                            ),
+                            value: year,
                           ),
-                          value: i + 1,
-                        ),
-                      ),
-                    )
-                    .values
-                    .toList(),
-                onChanged: (val) {
-                  model.selectedMonth = val ?? 0;
-                  notesListModel.loadNotes(model.selectedDay);
-                },
+                        )
+                        .toList(),
+                    onChanged: (val) {
+                      model.selectedYear = val ?? 0;
+                      notesListModel.loadNotes(model.selectedDay);
+                    },
+                  ),
+                  DropdownButton<int>(
+                    iconSize: 32,
+                    dropdownColor: Theme.of(context).colorScheme.primary,
+                    iconEnabledColor:
+                        Theme.of(context).primaryTextTheme.headline5!.color,
+                    value: model.selectedMonth,
+                    items: CalendarScrollerViewModel.MONTHS
+                        .asMap()
+                        .map(
+                          (i, monthName) =>
+                              MapEntry<int, DropdownMenuItem<int>>(
+                            i,
+                            DropdownMenuItem<int>(
+                              child: Text(
+                                monthName,
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline5,
+                              ),
+                              value: i + 1,
+                            ),
+                          ),
+                        )
+                        .values
+                        .toList(),
+                    onChanged: (val) {
+                      model.selectedMonth = val ?? 0;
+                      notesListModel.loadNotes(model.selectedDay);
+                    },
+                  ),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 8),
