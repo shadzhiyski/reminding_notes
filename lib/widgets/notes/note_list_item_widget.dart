@@ -42,12 +42,12 @@ class NoteListItemWidget extends StatelessWidget {
                 children: [
                   if (model.status == NoteStatus.done)
                     const Icon(Icons.done_rounded, size: 32)
-                  else if (model.type == NoteType.scheduledReminding)
+                  else if (model.type == NoteType.scheduled)
                     const Icon(Icons.alarm_on_rounded, size: 32)
-                  else if (model.type == NoteType.dailyReminding ||
-                      model.type == NoteType.weeklyReminding ||
-                      model.type == NoteType.monthlyReminding ||
-                      model.type == NoteType.annualReminding)
+                  else if (model.type == NoteType.daily ||
+                      model.type == NoteType.weekly ||
+                      model.type == NoteType.monthly ||
+                      model.type == NoteType.annual)
                     const Icon(Icons.repeat_rounded, size: 32),
                 ],
               ),
@@ -55,14 +55,11 @@ class NoteListItemWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(DateFormat.Hm().format(model.dateTime!)),
-                  if (model.type == NoteType.dailyReminding)
-                    const Text('daily'),
-                  if (model.type == NoteType.weeklyReminding)
+                  if (model.type == NoteType.daily) const Text('daily'),
+                  if (model.type == NoteType.weekly)
                     Text('each ${DateFormat.EEEE().format(model.dateTime!)}'),
-                  if (model.type == NoteType.monthlyReminding)
-                    const Text('monthly'),
-                  if (model.type == NoteType.annualReminding)
-                    const Text('annual'),
+                  if (model.type == NoteType.monthly) const Text('monthly'),
+                  if (model.type == NoteType.annual) const Text('annual'),
                 ],
               ),
               onTap: () => Navigator.of(context).pushNamed('/editItem'),

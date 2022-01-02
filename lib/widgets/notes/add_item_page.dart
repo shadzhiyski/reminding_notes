@@ -65,7 +65,7 @@ class AddItemPage extends StatelessWidget {
             dateTime: DateTime.now().add(const Duration(hours: 1)),
             title: '',
             description: '',
-            type: NoteType.scheduledReminding,
+            type: NoteType.scheduled,
             status: NoteStatus.active,
           ),
           child: Consumer<NoteViewModel>(
@@ -157,7 +157,7 @@ class AddItemPage extends StatelessWidget {
                             i,
                             DropdownMenuItem<int>(
                               child: Text(
-                                monthName.name.replaceFirst('Reminding', ''),
+                                monthName.name,
                               ),
                               value: i + 1,
                             ),

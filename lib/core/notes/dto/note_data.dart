@@ -1,11 +1,4 @@
-enum NoteType {
-  scheduledReminding,
-  dailyReminding,
-  weeklyReminding,
-  monthlyReminding,
-  annualReminding,
-  customReminding
-}
+enum NoteType { scheduled, daily, weekly, monthly, annual }
 
 enum NoteStatus {
   active,

@@ -8,7 +8,7 @@ class NotesService {
         dateTime: DateTime.utc(2021, 12, 20, 06, 45, 00),
         title: "Example Title",
         description: "Some description",
-        type: NoteType.scheduledReminding,
+        type: NoteType.scheduled,
         status: NoteStatus.active,
       ),
       NoteData(
@@ -16,7 +16,7 @@ class NotesService {
         dateTime: DateTime.utc(2021, 12, 20, 8, 30, 00),
         title: "Example Title 2",
         description: "Some description 2",
-        type: NoteType.scheduledReminding,
+        type: NoteType.scheduled,
         status: NoteStatus.active,
       ),
       NoteData(
@@ -24,7 +24,7 @@ class NotesService {
         dateTime: DateTime.utc(2021, 12, 20, 09, 45, 00),
         title: "Once Remind Note 3",
         description: "Some description",
-        type: NoteType.dailyReminding,
+        type: NoteType.daily,
         status: NoteStatus.active,
       ),
       NoteData(
@@ -32,7 +32,7 @@ class NotesService {
         dateTime: DateTime.utc(2021, 12, 20, 11, 45, 00),
         title: "Once Remind Note (DONE)",
         description: "Some description",
-        type: NoteType.monthlyReminding,
+        type: NoteType.monthly,
         status: NoteStatus.done,
       ),
     ],
@@ -42,7 +42,7 @@ class NotesService {
         dateTime: DateTime.utc(2021, 12, 19, 09, 30, 00),
         title: "Example Title 3",
         description: "Some description 3",
-        type: NoteType.weeklyReminding,
+        type: NoteType.weekly,
         status: NoteStatus.active,
       ),
       NoteData(
@@ -50,7 +50,7 @@ class NotesService {
         dateTime: DateTime.utc(2021, 12, 19, 13, 30, 00),
         title: "Once Remind Note",
         description: "Some description",
-        type: NoteType.scheduledReminding,
+        type: NoteType.scheduled,
         status: NoteStatus.active,
       ),
     ],
@@ -60,7 +60,7 @@ class NotesService {
         dateTime: DateTime.utc(2021, 12, 18, 11, 30, 00),
         title: "Once Remind Note 2",
         description: "Some description",
-        type: NoteType.scheduledReminding,
+        type: NoteType.scheduled,
         status: NoteStatus.active,
       ),
       NoteData(
@@ -68,7 +68,7 @@ class NotesService {
         dateTime: DateTime.utc(2021, 12, 18, 11, 30, 00),
         title: "Once Remind Note (DONE)",
         description: "Some description",
-        type: NoteType.scheduledReminding,
+        type: NoteType.scheduled,
         status: NoteStatus.done,
       ),
     ]
