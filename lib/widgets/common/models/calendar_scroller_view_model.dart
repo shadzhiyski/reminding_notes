@@ -64,7 +64,7 @@ class CalendarScrollerViewModel extends ChangeNotifier {
   void _setSelectedDay(int year, int month, int day) {
     var daysCount = daysInMonth(_dateTime.year, month);
     selectedDayIndex = min(selectedDayIndex, daysCount - 1);
-    _dateTime = DateTime(_dateTime.year, month, selectedDayIndex + 1);
+    _dateTime = DateTime(year, month, day);
 
     _setMonthDays(daysCount);
   }
