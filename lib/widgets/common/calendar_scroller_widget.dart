@@ -22,58 +22,66 @@ class CalendarScrollerWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  DropdownButton<int>(
-                    iconSize: 32,
-                    dropdownColor: Theme.of(context).colorScheme.primary,
-                    iconEnabledColor:
-                        Theme.of(context).primaryTextTheme.headline5!.color,
-                    value: model.selectedYear,
-                    items: CalendarScrollerViewModel.YEARS
-                        .map(
-                          (year) => DropdownMenuItem<int>(
-                            child: Text(
-                              year.toString(),
-                              style:
-                                  Theme.of(context).primaryTextTheme.headline5,
-                            ),
-                            value: year,
-                          ),
-                        )
-                        .toList(),
-                    onChanged: (val) {
-                      model.selectedYear = val ?? 0;
-                      notesListModel.loadNotes(model.selectedDay);
-                    },
-                  ),
-                  DropdownButton<int>(
-                    iconSize: 32,
-                    dropdownColor: Theme.of(context).colorScheme.primary,
-                    iconEnabledColor:
-                        Theme.of(context).primaryTextTheme.headline5!.color,
-                    value: model.selectedMonth,
-                    items: CalendarScrollerViewModel.MONTHS
-                        .asMap()
-                        .map(
-                          (i, monthName) =>
-                              MapEntry<int, DropdownMenuItem<int>>(
-                            i,
-                            DropdownMenuItem<int>(
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: DropdownButton<int>(
+                      iconSize: 32,
+                      dropdownColor: Theme.of(context).colorScheme.primary,
+                      iconEnabledColor:
+                          Theme.of(context).primaryTextTheme.headline5!.color,
+                      value: model.selectedYear,
+                      items: CalendarScrollerViewModel.YEARS
+                          .map(
+                            (year) => DropdownMenuItem<int>(
                               child: Text(
-                                monthName,
+                                year.toString(),
                                 style: Theme.of(context)
                                     .primaryTextTheme
                                     .headline5,
                               ),
-                              value: i + 1,
+                              value: year,
                             ),
-                          ),
-                        )
-                        .values
-                        .toList(),
-                    onChanged: (val) {
-                      model.selectedMonth = val ?? 0;
-                      notesListModel.loadNotes(model.selectedDay);
-                    },
+                          )
+                          .toList(),
+                      onChanged: (val) {
+                        model.selectedYear = val ?? 0;
+                        notesListModel.loadNotes(model.selectedDay);
+                      },
+                    ),
+                  ),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16),
+                    child: DropdownButton<int>(
+                      iconSize: 32,
+                      dropdownColor: Theme.of(context).colorScheme.primary,
+                      iconEnabledColor:
+                          Theme.of(context).primaryTextTheme.headline5!.color,
+                      value: model.selectedMonth,
+                      items: CalendarScrollerViewModel.MONTHS
+                          .asMap()
+                          .map(
+                            (i, monthName) =>
+                                MapEntry<int, DropdownMenuItem<int>>(
+                              i,
+                              DropdownMenuItem<int>(
+                                child: Text(
+                                  monthName,
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline5,
+                                ),
+                                value: i + 1,
+                              ),
+                            ),
+                          )
+                          .values
+                          .toList(),
+                      onChanged: (val) {
+                        model.selectedMonth = val ?? 0;
+                        notesListModel.loadNotes(model.selectedDay);
+                      },
+                    ),
                   ),
                 ],
               ),
