@@ -11,7 +11,7 @@ class NoteAdapter extends TypeAdapter<Note> {
     return Note(
       title: reader.read(),
       description: reader.read(),
-      remindings: reader.readList().cast<Reminding>(),
+      reminding: reader.read(),
     );
   }
 
@@ -19,6 +19,6 @@ class NoteAdapter extends TypeAdapter<Note> {
   void write(BinaryWriter writer, Note obj) {
     writer.write(obj.title);
     writer.write(obj.description);
-    writer.writeList(obj.remindings);
+    writer.write<Reminding>(obj.reminding);
   }
 }

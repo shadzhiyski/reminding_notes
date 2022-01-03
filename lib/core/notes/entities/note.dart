@@ -7,11 +7,11 @@ class Note extends HiveObject {
 
   String? description;
 
-  List<Reminding> remindings;
+  Reminding reminding;
 
   Note({
     required this.title,
-    required this.remindings,
+    required this.reminding,
     this.description,
   }) : super();
 }
