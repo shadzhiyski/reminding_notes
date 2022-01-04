@@ -33,8 +33,8 @@ class NoteData {
     dateTime = note.reminding.dateTime;
     title = note.title;
     description = note.description;
-    type = NoteType.values
-        .firstWhere((type) => note.reminding.type == type.toString());
+    type = NoteType.values.byName(note.reminding.type);
+    status = NoteStatus.values.byName(note.reminding.status);
   }
 
   Note toEntity() => Note(
