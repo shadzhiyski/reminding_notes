@@ -1,84 +1,56 @@
 import 'package:reminding_notes/core/notes/dto/note_data.dart';
+import 'package:reminding_notes/core/notes/entities/note.dart';
+import 'package:reminding_notes/infrastructure/common/generic_repository.dart';
 
 class NotesService {
-  final Map<DateTime, List<NoteData>> notesByDay = {
-    DateTime.utc(2021, 12, 20, 00, 00, 00): [
-      NoteData(
-        id: 1,
-        dateTime: DateTime.utc(2021, 12, 20, 06, 45, 00),
-        title: "Example Title",
-        description: "Some description",
-        type: NoteType.scheduled,
-        status: NoteStatus.active,
-      ),
-      NoteData(
-        id: 2,
-        dateTime: DateTime.utc(2021, 12, 20, 8, 30, 00),
-        title: "Example Title 2",
-        description: "Some description 2",
-        type: NoteType.scheduled,
-        status: NoteStatus.active,
-      ),
-      NoteData(
-        id: 3,
-        dateTime: DateTime.utc(2021, 12, 20, 09, 45, 00),
-        title: "Once Remind Note 3",
-        description: "Some description",
-        type: NoteType.daily,
-        status: NoteStatus.active,
-      ),
-      NoteData(
-        id: 4,
-        dateTime: DateTime.utc(2021, 12, 20, 11, 45, 00),
-        title: "Once Remind Note (DONE)",
-        description: "Some description",
-        type: NoteType.monthly,
-        status: NoteStatus.done,
-      ),
-    ],
-    DateTime.utc(2021, 12, 19, 00, 00, 00): [
-      NoteData(
-        id: 5,
-        dateTime: DateTime.utc(2021, 12, 19, 09, 30, 00),
-        title: "Example Title 3",
-        description: "Some description 3",
-        type: NoteType.weekly,
-        status: NoteStatus.active,
-      ),
-      NoteData(
-        id: 6,
-        dateTime: DateTime.utc(2021, 12, 19, 13, 30, 00),
-        title: "Once Remind Note",
-        description: "Some description",
-        type: NoteType.scheduled,
-        status: NoteStatus.active,
-      ),
-    ],
-    DateTime.utc(2021, 12, 18, 00, 00, 00): [
-      NoteData(
-        id: 7,
-        dateTime: DateTime.utc(2021, 12, 18, 11, 30, 00),
-        title: "Once Remind Note 2",
-        description: "Some description",
-        type: NoteType.scheduled,
-        status: NoteStatus.active,
-      ),
-      NoteData(
-        id: 8,
-        dateTime: DateTime.utc(2021, 12, 18, 11, 30, 00),
-        title: "Once Remind Note (DONE)",
-        description: "Some description",
-        type: NoteType.scheduled,
-        status: NoteStatus.done,
-      ),
-    ]
-  };
+  final GenericRepository<Note> scheduledNotesRepo;
+  final GenericRepository<Note> dailyNotesRepo;
+  final GenericRepository<Note> weeklyNotesRepo;
+  final GenericRepository<Note> annualNotesRepo;
 
-  NotesService();
+  NotesService({
+    required this.scheduledNotesRepo,
+    required this.dailyNotesRepo,
+    required this.weeklyNotesRepo,
+    required this.annualNotesRepo,
+  });
+
+  Future add(NoteData entry) {
+    var entity = entry.toEntity();
+    if (entry.type == NoteType.scheduled) {
+      scheduledNotesRepo.add(entity);
+    } else if (entry.type == NoteType.daily) {
+      dailyNotesRepo.add(entity);
+    } else if (entry.type == NoteType.weekly) {
+      weeklyNotesRepo.add(entity);
+    } else if (entry.type == NoteType.annual) {
+      annualNotesRepo.add(entity);
+    }
+
+    return Future.value();
+  }
 
   Future<List<NoteData>> getNotesForDay(DateTime day) {
-    var filterDay = DateTime.utc(day.year, day.month, day.day);
+    var filterDayStart = DateTime.utc(day.year, day.month, day.day);
+    var filterDayEnd = filterDayStart.add(const Duration(days: 1));
 
-    return Future.value(notesByDay[filterDay] ?? []);
+    var scheduledNotes = scheduledNotesRepo.getWhere(
+        (note) => _filterPeriodPredicate(note, filterDayStart, filterDayEnd));
+    var dailyNotes = dailyNotesRepo.getWhere(
+        (note) => _filterPeriodPredicate(note, filterDayStart, filterDayEnd));
+    var weeklyNotes = weeklyNotesRepo.getWhere(
+        (note) => _filterPeriodPredicate(note, filterDayStart, filterDayEnd));
+    var annualNotes = annualNotesRepo.getWhere(
+        (note) => _filterPeriodPredicate(note, filterDayStart, filterDayEnd));
+
+    var notesByDay = (scheduledNotes + dailyNotes + weeklyNotes + annualNotes)
+        .map((note) => NoteData.fromEntity(note: note))
+        .toList();
+    return Future.value(notesByDay);
   }
+
+  bool _filterPeriodPredicate(
+          Note note, DateTime filterDayStart, DateTime filterDayEnd) =>
+      note.reminding.dateTime.isAfter(filterDayStart) &&
+      note.reminding.dateTime.isBefore(filterDayEnd);
 }
