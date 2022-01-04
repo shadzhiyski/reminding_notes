@@ -1,3 +1,6 @@
+import 'package:reminding_notes/core/notes/entities/note.dart';
+import 'package:reminding_notes/core/notes/entities/reminding.dart';
+
 enum NoteType { scheduled, daily, weekly, monthly, annual }
 
 enum NoteStatus {
@@ -9,12 +12,12 @@ enum NoteStatus {
 }
 
 class NoteData {
-  final int id;
-  final DateTime? dateTime;
-  final String? title;
-  final String? description;
-  final NoteType? type;
-  final NoteStatus? status;
+  late int id;
+  late DateTime? dateTime;
+  late String? title;
+  late String? description;
+  late NoteType? type;
+  late NoteStatus? status;
 
   NoteData({
     required this.id,
@@ -24,4 +27,23 @@ class NoteData {
     this.type,
     this.status,
   });
+
+  NoteData.fromEntity({required Note note}) {
+    id = note.key;
+    dateTime = note.reminding.dateTime;
+    title = note.title;
+    description = note.description;
+    type = NoteType.values
+        .firstWhere((type) => note.reminding.type == type.toString());
+  }
+
+  Note toEntity() => Note(
+        title: title!,
+        description: description,
+        reminding: Reminding(
+          dateTime: dateTime!,
+          type: type.toString(),
+          status: status.toString(),
+        ),
+      );
 }
