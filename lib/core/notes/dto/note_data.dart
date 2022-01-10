@@ -42,8 +42,8 @@ class NoteData {
         description: description,
         reminding: Reminding(
           dateTime: dateTime!,
-          type: type.toString(),
-          status: status.toString(),
+          type: type.toString().split('.').last,
+          status: status.toString().split('.').last,
         ),
       );
 }
