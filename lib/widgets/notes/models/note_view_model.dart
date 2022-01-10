@@ -65,4 +65,13 @@ class NoteViewModel extends ChangeNotifier {
     _status = value;
     notifyListeners();
   }
+
+  NoteData toDto() => NoteData(
+        id: id,
+        dateTime: dateTime,
+        title: title,
+        description: description,
+        type: type,
+        status: status,
+      );
 }
