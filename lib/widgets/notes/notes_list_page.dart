@@ -13,20 +13,20 @@ class NotesListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var model = NotesListViewModel(notesService: notesService);
+    var initialModel = NotesListViewModel(notesService: notesService);
     return ChangeNotifierProvider<NotesListViewModel>(
-      create: (context) => model,
+      create: (context) => initialModel,
       builder: (context, child) => child!,
-      child: Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 160,
-          flexibleSpace: const CalendarScrollerWidget(),
-        ),
-        body: FutureBuilder(
-          future: model.loadNotes(DateTime.now()),
-          builder: (context, snapshot) => SingleChildScrollView(
-            child: Consumer<NotesListViewModel>(
-              builder: (context, model, child) => Padding(
+      child: Consumer<NotesListViewModel>(
+        builder: (context, model, child) => Scaffold(
+          appBar: AppBar(
+            toolbarHeight: 160,
+            flexibleSpace: const CalendarScrollerWidget(),
+          ),
+          body: FutureBuilder(
+            future: model.loadNotes(model.currentLoadedDay),
+            builder: (context, snapshot) => SingleChildScrollView(
+              child: Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: Column(
                   children: model.notes
@@ -40,36 +40,47 @@ class NotesListPage extends StatelessWidget {
               ),
             ),
           ),
-        ),
-        bottomNavigationBar: BottomAppBar(
-          shape: const CircularNotchedRectangle(),
-          color: Theme.of(context).primaryColor,
-          child: IconTheme(
-            data: Theme.of(context).primaryIconTheme,
-            child: Row(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.menu_rounded),
-                  onPressed: () {},
-                ),
-                const Spacer(),
-                IconButton(
-                  icon: const Icon(Icons.filter_list_rounded),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: const Icon(Icons.settings_rounded),
-                  onPressed: () => Navigator.of(context).pushNamed('/settings'),
-                ),
-              ],
+          bottomNavigationBar: BottomAppBar(
+            shape: const CircularNotchedRectangle(),
+            color: Theme.of(context).primaryColor,
+            child: IconTheme(
+              data: Theme.of(context).primaryIconTheme,
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.menu_rounded),
+                    onPressed: () {},
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.filter_list_rounded),
+                    onPressed: () {},
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.settings_rounded),
+                    onPressed: () =>
+                        Navigator.of(context).pushNamed('/settings'),
+                  ),
+                ],
+              ),
             ),
           ),
+          floatingActionButton: Consumer<NotesListViewModel>(
+            builder: (context, model, child) => FloatingActionButton(
+              child: const Icon(Icons.edit_rounded),
+              onPressed: () async {
+                var isCreated = (await Navigator.of(context)
+                        .pushNamed('/addItem') as bool?) ??
+                    false;
+                if (isCreated) {
+                  model.loadNotes(model.currentLoadedDay);
+                }
+              },
+            ),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
         ),
-        floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.edit_rounded),
-          onPressed: () => Navigator.of(context).pushNamed('/addItem'),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );
   }

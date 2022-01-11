@@ -47,6 +47,13 @@ class App extends StatelessWidget {
             SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
           }
 
+          var notesService = NotesService(
+            scheduledNotesRepo: scheduledNotesRepo,
+            dailyNotesRepo: dailyNotesRepo,
+            weeklyNotesRepo: weeklyNotesRepo,
+            annualNotesRepo: annualNotesRepo,
+          );
+
           return MaterialApp(
             title: 'Reminding Notes',
             debugShowCheckedModeBanner: false,
@@ -67,16 +74,9 @@ class App extends StatelessWidget {
             themeMode: model.themeMode,
             initialRoute: '/',
             routes: {
-              '/': (context) => NotesListPage(
-                    notesService: NotesService(
-                      scheduledNotesRepo: scheduledNotesRepo,
-                      dailyNotesRepo: dailyNotesRepo,
-                      weeklyNotesRepo: weeklyNotesRepo,
-                      annualNotesRepo: annualNotesRepo,
-                    ),
-                  ),
+              '/': (context) => NotesListPage(notesService: notesService),
               '/editItem': (context) => const EditItemPage(),
-              '/addItem': (context) => const AddItemPage(),
+              '/addItem': (context) => AddItemPage(notesService: notesService),
               '/settings': (_) => const SettingsPage(),
             },
           );

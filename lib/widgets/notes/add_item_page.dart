@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reminding_notes/core/notes/dto/note_data.dart';
+import 'package:reminding_notes/core/notes/services/notes_service.dart';
 
 import 'models/note_view_model.dart';
+import 'models/notes_list_view_model.dart';
 
 class AddItemPage extends StatelessWidget {
-  const AddItemPage({Key? key}) : super(key: key);
+  final NotesService notesService;
+  const AddItemPage({Key? key, required this.notesService}) : super(key: key);
 
   Future<void> _selectDate(NoteViewModel model, BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -45,31 +48,32 @@ class AddItemPage extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: GestureDetector(
-                onTap: () {
-                  // TODO: add save action
-                },
-                child: const Icon(Icons.done_rounded, size: 26.0),
-              ),
-            ),
-          ],
+  Widget build(BuildContext context) => ChangeNotifierProvider<NoteViewModel>(
+        create: (context) => NoteViewModel(
+          id: -1,
+          dateTime: DateTime.now().add(const Duration(hours: 1)),
+          title: '',
+          description: '',
+          type: NoteType.scheduled,
+          status: NoteStatus.active,
         ),
-        body: ChangeNotifierProvider<NoteViewModel>(
-          create: (context) => NoteViewModel(
-            id: -1,
-            dateTime: DateTime.now().add(const Duration(hours: 1)),
-            title: '',
-            description: '',
-            type: NoteType.scheduled,
-            status: NoteStatus.active,
-          ),
-          child: Consumer<NoteViewModel>(
-            builder: (context, model, child) => SingleChildScrollView(
+        child: Consumer<NoteViewModel>(
+          builder: (context, model, child) => Scaffold(
+            appBar: AppBar(
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 16),
+                  child: GestureDetector(
+                    onTap: () {
+                      notesService.add(model.toDto());
+                      Navigator.of(context).pop(true);
+                    },
+                    child: const Icon(Icons.done_rounded, size: 26.0),
+                  ),
+                ),
+              ],
+            ),
+            body: SingleChildScrollView(
               child: Column(
                 children: [
                   Padding(
